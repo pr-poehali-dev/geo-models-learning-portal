@@ -64,6 +64,7 @@ const MODELS = [
     accentColor: "text-amber-400",
     desc: "Описывает геометрию пластов, положение кровли и подошвы, а также тектонические нарушения.",
     params: ["Горизонты", "Разломы", "Стратиграфия"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/cf4e3d8b-a368-4534-b083-6ddce1b1cc28.jpg",
   },
   {
     name: "Литологическая модель",
@@ -73,6 +74,7 @@ const MODELS = [
     accentColor: "text-stone-300",
     desc: "Распределение литотипов и фаций в трёхмерном пространстве на основе данных скважин и сейсмики.",
     params: ["Фации", "Литотипы", "Вариограмма"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/7f1983b7-6020-4050-871d-a74bc33d3979.jpg",
   },
   {
     name: "Петрофизическая модель",
@@ -82,6 +84,7 @@ const MODELS = [
     accentColor: "text-orange-400",
     desc: "Непрерывное распределение фильтрационно-ёмкостных свойств породы по всему объёму залежи.",
     params: ["Пористость", "Проницаемость", "Sw"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/f648f64e-ff27-4bd5-92b9-d134feb394a4.jpg",
   },
   {
     name: "Гидродинамическая модель",
@@ -91,6 +94,7 @@ const MODELS = [
     accentColor: "text-blue-400",
     desc: "Симуляция движения флюидов и изменения пластового давления в процессе разработки.",
     params: ["Флюиды", "Давление", "Дебит"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/d66c2133-ce9f-4397-92ad-029c8239ff88.jpg",
   },
 ];
 
@@ -380,23 +384,31 @@ function ModelsPage() {
             style={{ animationDelay: `${i * 80}ms`, animationFillMode: "both" }}
             onClick={() => setSelected(selected === i ? null : i)}
           >
-            <div className={`bg-gradient-to-br ${model.color} p-5`}>
-              <div className="flex items-start justify-between mb-3">
-                <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                  <Icon name={model.icon} size={18} className={model.accentColor} />
+            <div className="relative overflow-hidden">
+              <img
+                src={model.image}
+                alt={model.name}
+                className="w-full h-40 object-cover"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t ${model.color} from-[hsl(var(--card))] via-[hsl(var(--card))]/60 to-transparent`} />
+              <div className="absolute inset-0 p-5 flex flex-col justify-end">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center">
+                    <Icon name={model.icon} size={15} className={model.accentColor} />
+                  </div>
+                  <Icon
+                    name={selected === i ? "ChevronUp" : "ChevronDown"}
+                    size={15}
+                    className="text-muted-foreground mt-1"
+                  />
                 </div>
-                <Icon
-                  name={selected === i ? "ChevronUp" : "ChevronDown"}
-                  size={15}
-                  className="text-muted-foreground mt-1"
-                />
+                <h3 className="font-display text-xl font-semibold text-foreground leading-tight">
+                  {model.name}
+                </h3>
+                <p className={`text-xs font-body mt-0.5 ${model.accentColor} opacity-70`}>
+                  {model.short}
+                </p>
               </div>
-              <h3 className="font-display text-xl font-semibold text-foreground leading-tight">
-                {model.name}
-              </h3>
-              <p className={`text-xs font-body mt-0.5 ${model.accentColor} opacity-70`}>
-                {model.short}
-              </p>
             </div>
 
             {selected === i && (
