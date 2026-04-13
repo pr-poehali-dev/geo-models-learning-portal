@@ -63,8 +63,52 @@ export default function TheoryPage() {
               />
             </div>
             {active === i && (
-              <div className="px-5 py-4 bg-card animate-fade-in">
-                <p className="text-foreground/80 font-body text-sm leading-relaxed">{topic.desc}</p>
+              <div
+                className="bg-card animate-fade-in"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="px-5 pt-5 pb-2">
+                  <p className="text-foreground/80 font-body text-sm leading-relaxed italic border-l-2 border-primary/30 pl-4">
+                    {topic.desc}
+                  </p>
+                </div>
+
+                <div className="px-5 py-4 space-y-6">
+                  {topic.sections.map((section, si) => (
+                    <div key={si}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-primary/40 font-display text-xs font-semibold">
+                          {String(si + 1).padStart(2, "0")}
+                        </span>
+                        <h4 className="font-display text-base font-semibold text-foreground">
+                          {section.heading}
+                        </h4>
+                      </div>
+                      <p className="text-foreground/75 font-body text-sm leading-[1.8] pl-7">
+                        {section.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mx-5 mb-5 rounded-lg bg-primary/5 border border-primary/15 p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon name="Lightbulb" size={14} className="text-primary" />
+                    <span className="font-display text-sm font-semibold text-foreground">
+                      Ключевые тезисы
+                    </span>
+                  </div>
+                  <ul className="space-y-2">
+                    {topic.keyPoints.map((point, pi) => (
+                      <li key={pi} className="flex items-start gap-2.5">
+                        <span className="w-1 h-1 rounded-full bg-primary mt-2 shrink-0" />
+                        <span className="text-foreground/80 font-body text-sm leading-relaxed">
+                          {point}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
           </div>
