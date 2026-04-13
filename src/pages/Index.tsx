@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
 type Page = "home" | "theory" | "models" | "glossary";
@@ -122,9 +122,15 @@ const GLOSSARY_TERMS = [
 ];
 
 export default function Index() {
-  const [page, setPage] = useState<Page>("home");
+  const [page, setPageRaw] = useState<Page>("home");
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
+
+  const setPage = (p: Page) => {
+    setPageRaw(p);
+    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const filtered = GLOSSARY_TERMS.filter(
     (t) =>
@@ -140,7 +146,10 @@ export default function Index() {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:static lg:flex`}
       >
-        <div className="px-6 py-7 border-b border-border">
+        <button
+          onClick={() => { setPage("home"); setSidebarOpen(false); }}
+          className="px-6 py-7 border-b border-border w-full text-left hover:bg-secondary/50 transition-colors"
+        >
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded bg-primary flex items-center justify-center">
               <Icon name="Layers" size={14} className="text-primary-foreground" />
@@ -152,7 +161,7 @@ export default function Index() {
               <p className="text-[10px] text-muted-foreground mt-0.5 font-body">учебный портал</p>
             </div>
           </div>
-        </div>
+        </button>
 
         <nav className="flex-1 px-3 py-5 space-y-0.5">
           {NAV_ITEMS.map((item) => (
@@ -201,7 +210,7 @@ export default function Index() {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto">
+        <main ref={mainRef} className="flex-1 overflow-y-auto">
           {page === "home" && <HomePage setPage={setPage} />}
           {page === "theory" && <TheoryPage />}
           {page === "models" && <ModelsPage />}
