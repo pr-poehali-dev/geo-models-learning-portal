@@ -18,6 +18,7 @@ export interface TheoryTopic {
   desc: string;
   duration: string;
   tags: string[];
+  image: string;
   sections: TopicSection[];
   keyPoints: string[];
 }
@@ -29,6 +30,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Принципы построения цифровых моделей недр: от данных к трёхмерной геометрии пласта.",
     duration: "25 мин",
     tags: ["Введение", "Пласт"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/13ef9bed-0b74-4a60-8a29-98d00f39ad3e.jpg",
     sections: [
       {
         heading: "Что такое геологическая модель",
@@ -60,6 +62,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Интерпретация сейсмических горизонтов, разломов и построение структурного каркаса.",
     duration: "40 мин",
     tags: ["Сейсмика", "Разломы"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/6586dfb0-c0bc-4a65-8e98-ce9cbaef7f26.jpg",
     sections: [
       {
         heading: "Структурный каркас",
@@ -91,6 +94,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Методы распределения фаций: детерминистический подход и стохастическое моделирование.",
     duration: "35 мин",
     tags: ["Фации", "Стохастика"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/066c01ab-76e3-436c-a983-6bb2fb9a1ae7.jpg",
     sections: [
       {
         heading: "Понятие фации",
@@ -122,6 +126,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Распределение пористости, проницаемости и насыщенности в объёме модели.",
     duration: "45 мин",
     tags: ["Пористость", "Нефтенасыщенность"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/50fd5534-22fb-4a00-ac9b-007f4b1bec7c.jpg",
     sections: [
       {
         heading: "Задача петрофизического моделирования",
@@ -153,6 +158,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Объёмный метод подсчёта: GRV, NTG, пористость, насыщенность, поправочные коэффициенты.",
     duration: "30 мин",
     tags: ["Запасы", "GRV"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/74421826-e33a-4970-bd6c-77464909b7df.jpg",
     sections: [
       {
         heading: "Объёмный метод",
@@ -184,6 +190,7 @@ export const THEORY_TOPICS: TheoryTopic[] = [
     desc: "Оценка диапазона запасов методом Монте-Карло, P10/P50/P90 сценарии.",
     duration: "50 мин",
     tags: ["Риски", "Монте-Карло"],
+    image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/44a0aa52-657a-4cd7-b748-af4a38ad4831.jpg",
     sections: [
       {
         heading: "Источники неопределённости",
@@ -211,7 +218,25 @@ export const THEORY_TOPICS: TheoryTopic[] = [
   },
 ];
 
-export const MODELS = [
+export interface ParamDetail {
+  name: string;
+  desc: string;
+}
+
+export interface GeoModel {
+  name: string;
+  short: string;
+  icon: string;
+  color: string;
+  accentColor: string;
+  desc: string;
+  params: ParamDetail[];
+  image: string;
+  sketchfabId: string;
+  sketchfabTitle: string;
+}
+
+export const MODELS: GeoModel[] = [
   {
     name: "Структурная модель",
     short: "Structural Model",
@@ -219,8 +244,14 @@ export const MODELS = [
     color: "from-amber-900/40 to-amber-800/10",
     accentColor: "text-amber-400",
     desc: "Описывает геометрию пластов, положение кровли и подошвы, а также тектонические нарушения.",
-    params: ["Горизонты", "Разломы", "Стратиграфия"],
+    params: [
+      { name: "Горизонты", desc: "Поверхности кровли и подошвы продуктивных пластов, определяемые по данным сейсморазведки и скважин. Задают вертикальную архитектуру модели." },
+      { name: "Разломы", desc: "Тектонические нарушения — плоскости разрыва горных пород со смещением блоков. Могут быть экранирующими или проводящими для флюидов." },
+      { name: "Стратиграфия", desc: "Последовательность и возраст геологических слоёв. Определяет порядок напластования и корреляцию пластов между скважинами." },
+    ],
     image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/cf4e3d8b-a368-4534-b083-6ddce1b1cc28.jpg",
+    sketchfabId: "3cb0ca70123845b18185185fca90acec",
+    sketchfabTitle: "Faulted And Tilted Strata — разрез с разломами",
   },
   {
     name: "Литологическая модель",
@@ -229,8 +260,14 @@ export const MODELS = [
     color: "from-stone-800/40 to-stone-700/10",
     accentColor: "text-stone-300",
     desc: "Распределение литотипов и фаций в трёхмерном пространстве на основе данных скважин и сейсмики.",
-    params: ["Фации", "Литотипы", "Вариограмма"],
+    params: [
+      { name: "Фации", desc: "Дискретные категории пород, отражающие условия их образования: русловой песчаник, пойменная глина, барьерный алевролит и другие." },
+      { name: "Литотипы", desc: "Типы горных пород по минеральному составу и структуре: песчаник, алевролит, аргиллит, известняк. Определяют коллекторские свойства." },
+      { name: "Вариограмма", desc: "Геостатистическая функция пространственной корреляции. Описывает, на каком расстоянии свойства пород перестают быть взаимосвязанными." },
+    ],
     image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/7f1983b7-6020-4050-871d-a74bc33d3979.jpg",
+    sketchfabId: "54e4f8ce60f4423ba5a186784bba6b93",
+    sketchfabTitle: "Ovens Anticline — складчатые слои пород",
   },
   {
     name: "Петрофизическая модель",
@@ -239,8 +276,14 @@ export const MODELS = [
     color: "from-orange-900/30 to-orange-800/10",
     accentColor: "text-orange-400",
     desc: "Непрерывное распределение фильтрационно-ёмкостных свойств породы по всему объёму залежи.",
-    params: ["Пористость", "Проницаемость", "Sw"],
+    params: [
+      { name: "Пористость", desc: "Доля пустотного пространства в породе (0–35%). Определяет, сколько флюида может содержать порода. Измеряется по каротажу и керну." },
+      { name: "Проницаемость", desc: "Способность породы пропускать флюиды (мД). Зависит от размера пор и их связности. Критична для расчёта дебитов скважин." },
+      { name: "Sw", desc: "Водонасыщенность — доля порового пространства, занятая водой. Нефтенасыщенность So = 1 − Sw. Ключевой параметр подсчёта запасов." },
+    ],
     image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/f648f64e-ff27-4bd5-92b9-d134feb394a4.jpg",
+    sketchfabId: "b8ab5087928240478a3dea35bb4f59d4",
+    sketchfabTitle: "Porosity vs Permeability — образцы керна",
   },
   {
     name: "Гидродинамическая модель",
@@ -249,8 +292,14 @@ export const MODELS = [
     color: "from-blue-900/30 to-blue-800/10",
     accentColor: "text-blue-400",
     desc: "Симуляция движения флюидов и изменения пластового давления в процессе разработки.",
-    params: ["Флюиды", "Давление", "Дебит"],
+    params: [
+      { name: "Флюиды", desc: "Нефть, газ и вода в пластовых условиях. Характеризуются PVT-свойствами: вязкость, плотность, объёмный коэффициент, газосодержание." },
+      { name: "Давление", desc: "Пластовое давление и его изменение при разработке. Определяет энергию залежи, режим дренирования и необходимость поддержания давления." },
+      { name: "Дебит", desc: "Объём добываемого флюида в единицу времени (м³/сут, т/сут). Зависит от проницаемости, перепада давления, вязкости и конструкции скважины." },
+    ],
     image: "https://cdn.poehali.dev/projects/16fe118f-7b6f-49f4-84fc-1bb3b5daa793/files/d66c2133-ce9f-4397-92ad-029c8239ff88.jpg",
+    sketchfabId: "1d253f4117514433b23931adab8ba44c",
+    sketchfabTitle: "Geology of Carter Lake — 3D-геология района",
   },
 ];
 

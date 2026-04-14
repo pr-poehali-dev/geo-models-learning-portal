@@ -67,10 +67,18 @@ export default function TheoryPage() {
                 className="bg-card animate-fade-in"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="px-5 pt-5 pb-2">
-                  <p className="text-foreground/80 font-body text-sm leading-relaxed italic border-l-2 border-primary/30 pl-4">
-                    {topic.desc}
-                  </p>
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={topic.image}
+                    alt={topic.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--card))] via-[hsl(var(--card))]/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 px-5 pb-4">
+                    <p className="text-foreground/90 font-body text-sm leading-relaxed italic">
+                      {topic.desc}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="px-5 py-4 space-y-6">
